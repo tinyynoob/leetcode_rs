@@ -6,18 +6,16 @@ trait Solution {
     fn s(&self) -> String;
 }
 
-use std::collections::HashSet;
 impl dyn Solution {
     pub fn find_different_binary_string(nums: Vec<String>) -> String {
-        let mut h = HashSet::new();
-        for s in nums.iter() {
-            h.insert(usize::from_str_radix(s, 2).expect("Not binary"));
-        }
-        for i in 0..=nums.len() {
-            if h.get(&i) == None {
-                return format!("{:0w$b}", i, w = nums.len());
+        let mut ans = String::new();
+        for (i, s) in nums.iter().enumerate() {
+            match s.as_bytes()[i] {
+                b'0' => ans.push('1'),
+                b'1' => ans.push('0'),
+                _ => ()
             }
         }
-        String::new()
+        ans
     }
 }
