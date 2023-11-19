@@ -34,25 +34,22 @@ impl dyn Solution {
         max
     }
     pub fn reduction_operations(nums: Vec<i32>) -> i32 {
-        let mut ans = 0;
         let mut nums = nums;
+        let mut max = *nums.iter().max().unwrap();  // must exist
+        let mut count = 0;
         loop {
-            match reduct_op(&mut nums) {
-                false => return ans,
-                true => ans += 1
+            let second_max = nums.iter().filter(|&&x| x != max).max();
+            if second_max == None {
+                return count;
             }
+            let second_max = *second_max.unwrap();
+            for it in nums.iter_mut() {
+                if *it == max {
+                    count += 1;
+                    *it = second_max;
+                }
+            }
+            max = second_max;
         }
     }
-}
-
-fn reduct_op(nums: &mut Vec<i32>) -> bool{
-    let max = *nums.iter().max().unwrap();  // must exist
-    let second_max = nums.iter().filter(|&&x| x != max).max();
-    if second_max == None {
-        return false;
-    }
-    let second_max = *second_max.unwrap();
-    let largest_idx: usize = nums.iter().position(|&x| x == max).unwrap();  // must exist
-    nums[largest_idx] = second_max;
-    true
 }
