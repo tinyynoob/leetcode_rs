@@ -19,18 +19,12 @@ impl dyn Solution {
         ans
     }
     pub fn min_pair_sum(nums: Vec<i32>) -> i32 {
-        let n = nums.len();
-        let half = nums.len() / 2;
         let mut nums = nums;
         nums.sort();
-        let mut max = 0;
-        for i in 0..half {
-            let pair_sum = nums.get(i).unwrap_or_else(|| &0)
-                             + nums.get(n - i - 1).unwrap_or_else(|| &0);
-            if pair_sum > max {
-                max = pair_sum;
-            }
-        }
-        max
+        let half = nums.len() / 2;
+        nums.iter().take(half)
+                    .zip(nums.iter().rev().take(half))
+                    .map(|(&a, &b)| a + b)
+                    .max().unwrap()
     }
 }
