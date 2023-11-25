@@ -34,22 +34,35 @@ impl dyn Solution {
         max
     }
     pub fn reduction_operations(nums: Vec<i32>) -> i32 {
+        let mut ans = 0;
         let mut nums = nums;
-        let mut max = *nums.iter().max().unwrap();  // must exist
-        let mut count = 0;
-        loop {
-            let second_max = nums.iter().filter(|&&x| x != max).max();
-            if second_max == None {
-                return count;
+        nums.sort();
+        let mut cn = nums[0];   // current num
+        let mut count = 1;
+        let mut repeat_total = 0;   // only increase
+        for (i, val) in nums.iter().enumerate().skip(1) {
+            if *val == cn {
+                count += 1;
+                continue;
             }
-            let second_max = *second_max.unwrap();
-            for it in nums.iter_mut() {
-                if *it == max {
-                    count += 1;
-                    *it = second_max;
-                }
-            }
-            max = second_max;
+            repeat_total += count - 1;
+            ans += count * ((i as i32) - 1 - repeat_total);  // #cn * operator need for cn
+            cn = *val;
+            count = 1;
         }
+        repeat_total += count - 1;
+        ans += count * ((nums.len() as i32) - 1 - repeat_total);
+        ans
     }
 }
+
+/* need to learn how test the trait
+#[cfg(test)]
+mod test {
+    use super::*;
+    #[test]
+    fn test_reduction_operations() {
+        assert_eq!(reduction_operations(vec![5, 1, 3]), 3);
+    }
+}
+*/
