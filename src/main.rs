@@ -53,16 +53,16 @@ impl dyn Solution {
         }
     }
     pub fn get_sum_absolute_differences(nums: Vec<i32>) -> Vec<i32> {
-        let mut ans: Vec<i32> = Vec::new();
+        let mut ans: Vec<i32> = vec![0; nums.len()];
         let sum: i32 = nums.iter().sum();
         let n = nums.len() as i32;
         for (i, val) in nums.iter().enumerate() {
             if i == 0 {
-                ans.push(sum - val * n);
+                ans[i] = sum - val * n;
             } else {
                 let last = ans[i - 1];
                 let d = nums[i] - nums[i - 1];  // val - nums[i-1]
-                ans.push(last + (2 * (i as i32) - n) * d);
+                ans[i] = last + (2 * (i as i32) - n) * d;
             }
         }
         ans
