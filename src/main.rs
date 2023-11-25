@@ -34,24 +34,20 @@ impl dyn Solution {
         max
     }
     pub fn reduction_operations(nums: Vec<i32>) -> i32 {
-        let mut ans = 0;
-        let mut nums = nums;
-        nums.sort();
-        let mut cn = nums[0];   // current num
-        let mut count = 1;
-        let mut repeat_total = 0;   // only increase
-        for (i, val) in nums.iter().enumerate().skip(1) {
-            if *val == cn {
-                count += 1;
-                continue;
-            }
-            repeat_total += count - 1;
-            ans += count * ((i as i32) - 1 - repeat_total);  // #cn * operator need for cn
-            cn = *val;
-            count = 1;
+        const RANGE: usize = 50000 + 1;
+        let mut freq = [0; RANGE];
+        for i in nums.iter() {
+            freq[*i as usize] += 1;
         }
-        repeat_total += count - 1;
-        ans += count * ((nums.len() as i32) - 1 - repeat_total);
+        let mut ans = 0;
+        let mut accum = 0;
+        for f in freq.into_iter().rev() {
+            if f > 0 {
+                accum += f;
+                ans += accum;
+            }
+        }
+        ans -= accum;   // it should not be added for the min num
         ans
     }
 }
