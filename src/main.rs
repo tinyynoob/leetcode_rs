@@ -13,7 +13,7 @@ impl dyn Solution {
             match s.as_bytes()[i] {
                 b'0' => ans.push('1'),
                 b'1' => ans.push('0'),
-                _ => ()
+                _ => (),
             }
         }
         ans
@@ -22,10 +22,12 @@ impl dyn Solution {
         let mut nums = nums;
         nums.sort();
         let half = nums.len() / 2;
-        nums.iter().take(half)
-                    .zip(nums.iter().rev().take(half))
-                    .map(|(&a, &b)| a + b)
-                    .max().unwrap()
+        nums.iter()
+            .take(half)
+            .zip(nums.iter().rev().take(half))
+            .map(|(&a, &b)| a + b)
+            .max()
+            .unwrap()
     }
     pub fn reduction_operations(nums: Vec<i32>) -> i32 {
         const RANGE: usize = 50000 + 1;
@@ -41,7 +43,7 @@ impl dyn Solution {
                 ans += accum;
             }
         }
-        ans -= accum;   // it should not be added for the min num
+        ans -= accum; // it should not be added for the min num
         ans
     }
     pub fn get_sum_absolute_differences(nums: Vec<i32>) -> Vec<i32> {
@@ -53,7 +55,7 @@ impl dyn Solution {
                 ans[i] = sum - val * n;
             } else {
                 let last = ans[i - 1];
-                let d = nums[i] - nums[i - 1];  // val - nums[i-1]
+                let d = nums[i] - nums[i - 1]; // val - nums[i-1]
                 ans[i] = last + (2 * (i as i32) - n) * d;
             }
         }
@@ -63,7 +65,7 @@ impl dyn Solution {
         fn is_vowel(c: &u8) -> bool {
             match c {
                 b'a' | b'e' | b'i' | b'o' | b'u' => true,
-                _ => false
+                _ => false,
             }
         }
         let mut count = 0;
@@ -79,7 +81,7 @@ impl dyn Solution {
             match (is_vowel(l), is_vowel(r)) {
                 (true, false) => count -= 1,
                 (false, true) => count += 1,
-                _ => ()
+                _ => (),
             }
             if count > ans {
                 ans = count;
@@ -88,7 +90,6 @@ impl dyn Solution {
         ans
     }
 }
-
 
 /* need to learn how test the trait
 #[cfg(test)]
