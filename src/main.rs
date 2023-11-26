@@ -65,7 +65,36 @@ impl dyn Solution {
         }
         ans
     }
+    pub fn max_vowels(s: String, k: i32) -> i32 {
+        fn is_vowel(c: &u8) -> bool {
+            match c {
+                b'a' | b'e' | b'i' | b'o' | b'u' => true,
+                _ => false
+            }
+        }
+        let mut count = 0;
+        for i in s.bytes().take(k as usize) {
+            if is_vowel(&i) {
+                count += 1;
+            }
+        }
+        let mut ans = count;
+        for i in (k as usize)..s.len() {
+            let r = &s.as_bytes()[i];
+            let l = &s.as_bytes()[i - (k as usize)];
+            match (is_vowel(l), is_vowel(r)) {
+                (true, false) => count -= 1,
+                (false, true) => count += 1,
+                _ => ()
+            }
+            if count > ans {
+                ans = count;
+            }
+        }
+        ans
+    }
 }
+
 
 /* need to learn how test the trait
 #[cfg(test)]
